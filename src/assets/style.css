@@ -1,0 +1,159 @@
+html,
+body,
+h2,
+#root,
+.container {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --Ltc1: 250, 250, 250;
+  --Ltc2: 255, 255, 255;
+  --Ltc3: 0, 0, 0;
+  --btnc1: 212;
+  font-size: 16px;
+}
+/* Login component style */
+html,
+body,
+#react-root,
+.container {
+  height: 100%;
+  background: rgba(var(--Ltc1), 1);
+}
+.signin-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-button: 30px;
+}
+.main-box {
+  background: rgba(var(--Ltc2), 1);
+  width: 500px;
+  margin: 0 auto;
+}
+.box-header {
+  text-align: center;
+}
+.sigin-in-box-header {
+  text-align: center;
+  margin-top: 25px;
+}
+.text-field {
+  display: flex;
+  flex-direction: column;
+  margin-top: 22px;
+}
+.tfl,
+.tfl > div {
+  margin: 0 80px 7px;
+  text-align: center;
+}
+.text-field > .forget-pass {
+  margin: 8px 80px 0;
+  font-size: 0.8rem;
+}
+.text-field > div:nth-child(3) > span {
+  font-size: 0.8rem;
+  margin-left: 2px;
+}
+.text-field > div:nth-child(3) > a > span > svg {
+  vertical-align: middle;
+  height: 18px;
+}
+.tfl {
+  height: 36px;
+}
+.tfl > label {
+  position: relative;
+  height: 100%;
+  display: block;
+}
+.tfl > label > .text {
+  position: absolute;
+  height: 36px;
+  line-height: 36px;
+  color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  transition: transform 0.3s;
+  left: 9.3px;
+}
+.tfl > label > .text.active {
+  transform: scale(0.86874) translate(-10px, -10px);
+}
+.input-info {
+  padding: 9px 0 7px 8px;
+  width: 100%;
+}
+.input-info.active {
+  padding: 14px 0 2px 8px !important;
+}
+
+.confirm-button {
+  margin: 40px 90px 40px;
+  height: 36px;
+  border: 1px solid hsl(var(--btnc1), 85%, 59%);
+  background: hsl(var(--btnc1), 85%, 59%);
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.confirm-button:hover {
+  background: hsl(var(--btnc1), 85%, 80%);
+}
+
+.second-box > div:first-child {
+  height: 36px;
+  margin-left: 80px;
+  line-height: 36px;
+  margin-top: 15px;
+  font-size: 0.95rem;
+}
+
+.second-box > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 80px 40px;
+}
+
+.second-box > div:nth-child(2) > button {
+  cursor: pointer;
+  background: rgba(var(--Ltc2), 1);
+  border: 1px solid #ccc;
+  border-radius: 48px;
+  display: flex;
+  align-items: flex-center;
+  justify-content: center;
+  height: 48px;
+  position: relative;
+}
+.second-box > div:nth-child(2) > button:hover {
+  background: rgba(var(--Ltc3), 0.06);
+}
+.second-box > div:nth-child(2) > button:nth-child(2) {
+  margin-top: 20px;
+}
+.provider-img {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.provider-label {
+  font-size: 1.08rem;
+  margin: auto 0;
+}
+.third-box {
+  height: 36px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .main-box {
+    background: rgba(var(--Ltc2), 1);
+    width: 366px;
+    margin: 0 auto;
+  }
+}

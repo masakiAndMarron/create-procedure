@@ -1,5 +1,17 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+#settingfile
+.firebaseserc
+firebase.json
+firestore.indexes.json
+firestore.indexes.json
+firestore.rules
+storage.rules
+
+#security
+/src/firebase/Config.js
+
+
 # dependencies
 /node_modules
 /.pnp
