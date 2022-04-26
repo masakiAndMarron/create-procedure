@@ -1,10 +1,9 @@
-import { auth } from "../../firebase/Config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { setDoc, doc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebase/Config";
+import { setDoc, doc } from "firebase/firestore";
+import { db, timestamp, auth } from "../../firebase/Config";
 import { push } from "connected-react-router";
 
 export const signUp = (mail, password, confirmPassword) => {
@@ -13,7 +12,6 @@ export const signUp = (mail, password, confirmPassword) => {
       (userCredential) => {
         const user = userCredential.user;
         const uid = user.uid;
-        const timestamp = serverTimestamp();
 
         const userInitialData = {
           created_at: timestamp,

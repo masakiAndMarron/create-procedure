@@ -96,7 +96,7 @@ const SignUp = () => {
 
             <ConfirmButton
               label={"登録する"}
-              onClick={() => dispatch(signUp(mail, password, confirmPassword))}
+              onClick={() => signUp(mail, password, confirmPassword)}
             />
           </div>
           <CustomDivider />

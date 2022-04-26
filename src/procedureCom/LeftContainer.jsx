@@ -1,31 +1,60 @@
 import React from "react";
+import { createTitleInProcedure } from "../reducs/procedures/oparation";
 import "../assets/procedure.css";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, styled } from "@mui/material";
 
-const LeftContainer = () => {
+const CustomContentField = styled(TextField)({
+  height: "200px",
+  width: "310px",
+});
+
+const CustomButton = styled(Button)({
+  marginLeft: "24px",
+});
+
+const LeftContainer = (props) => {
   return (
     <div className="left-container">
-      <div>
+      <div className="width-adjustment">
         <div className="top-wrapper">
           <div className="title-field">
-            <TextField label="Title" id="outlined-size-small" size="small" />
-            <Button variant="contained">作成</Button>
+            <TextField
+              label="Title"
+              id="outlined-size-small"
+              size="small"
+              value={props.title}
+              onChange={(e) => props.inputTitle(e)}
+            />
+            <CustomButton
+              variant="contained"
+              onClick={() => createTitleInProcedure(props.title)}
+            >
+              作成
+            </CustomButton>
           </div>
           <div className="phase-field">
-            <TextField label="phase" id="outlined-size-small" size="small" />
-            <Button variant="contained">追加</Button>
+            <TextField
+              label="phase"
+              id="outlined-size-small"
+              size="small"
+              value={props.phase}
+              onChange={(e) => props.inputPhase(e)}
+            />
+            <CustomButton variant="contained">追加</CustomButton>
           </div>
         </div>
         <div className="second-wrapper">
           <div className="content-field">
-            <TextField
+            <CustomContentField
               id="standard-multiline-static"
               label="Content"
               multiline
-              rows={4}
+              rows={7}
               variant="standard"
+              value={props.content}
+              onChange={(e) => props.inputContent(e)}
             />
-            <Button variant="contained">追加</Button>
+            <CustomButton variant="contained">追加</CustomButton>
           </div>
         </div>
       </div>
