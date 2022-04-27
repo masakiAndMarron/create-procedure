@@ -27,14 +27,14 @@ const LeftContainer = (props) => {
             />
             <CustomButton
               variant="contained"
-              onClick={() => createTitleInProcedure(props.title)}
+              onClick={() => createTitleInProcedure(props.title, "Title")}
             >
               作成
             </CustomButton>
           </div>
           <div className="phase-field">
             <TextField
-              label="phase"
+              label="Phase"
               id="outlined-size-small"
               size="small"
               value={props.phase}
