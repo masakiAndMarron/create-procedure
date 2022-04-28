@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createTitleInProcedure } from "../reducs/procedures/oparation";
 import "../assets/procedure.css";
 import { TextField, Button, styled } from "@mui/material";
@@ -13,6 +13,9 @@ const CustomButton = styled(Button)({
 });
 
 const LeftContainer = (props) => {
+  const [id, setId] = useState("");
+
+  console.log(id);
   return (
     <div className="left-container">
       <div className="width-adjustment">
@@ -27,7 +30,9 @@ const LeftContainer = (props) => {
             />
             <CustomButton
               variant="contained"
-              onClick={() => createTitleInProcedure(props.title, "Title")}
+              onClick={() =>
+                createTitleInProcedure(props.title, "Title", id, setId)
+              }
             >
               作成
             </CustomButton>

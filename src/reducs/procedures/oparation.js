@@ -2,7 +2,7 @@ import { db } from "../../firebase/Config";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { timestamp } from "../../firebase/Config";
 
-export const createTitleInProcedure = (text, type) => {
+export const createTitleInProcedure = (text, type, id, setId) => {
   switch (true) {
     case type === "Title":
       const newProcedureRef = doc(collection(db, "procedures"));
@@ -13,7 +13,7 @@ export const createTitleInProcedure = (text, type) => {
         },
       };
       setDoc(newProcedureRef, title);
-      break;
+      setId(newProcedureRef.id);
     case type === "Phase":
       const phase = {
         phase: {
