@@ -1,19 +1,25 @@
 import { db } from "../../firebase/Config";
-import { collection, doc, setDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  setDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { timestamp } from "../../firebase/Config";
 
-export const createTitleInProcedure = (text, type, id, setId) => {
+export async function createTempProcedure(text, type, id, setId) {
   switch (true) {
     case type === "Title":
       if (id === "") {
-        const newProcedureRef = doc(collection(db, "temp_procedures"));
+        const newProcedureRef = doc(collection(db, "temp_procedure"));
         const title = {
           title: {
             title: text,
             created_at: timestamp,
           },
         };
-        setDoc(newProcedureRef, title);
+        await setDoc(newProcedureRef, title);
         setId(newProcedureRef.id);
       }
     case type === "Phase":
@@ -23,17 +29,18 @@ export const createTitleInProcedure = (text, type, id, setId) => {
           created_at: timestamp,
         },
       };
+      await updateDoc(doc(db, "temp_procedure", id), phase);
       break;
     default:
       break;
   }
-};
+}
 
 export async function getTempProcedure(setId) {
-  const querySnapshot = await getDocs(collection(db, "temp_procedures"));
+  const querySnapshot = await getDocs(collection(db, "temp_procedure"));
   if (querySnapshot) {
     querySnapshot.forEach((doc) => {
-      setId(doc.data().title.titile);
+      setId(doc.id);
     });
   } else {
     return;
