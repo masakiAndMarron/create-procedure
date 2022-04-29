@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { createTitleInProcedure } from "../reducs/procedures/oparation";
+import React, { useState, useEffect } from "react";
+import {
+  createTitleInProcedure,
+  getTempProcedure,
+} from "../reducs/procedures/oparation";
 import "../assets/procedure.css";
 import { TextField, Button, styled } from "@mui/material";
 
@@ -15,19 +18,31 @@ const CustomButton = styled(Button)({
 const LeftContainer = (props) => {
   const [id, setId] = useState("");
 
-  console.log(id);
+  useEffect(() => {
+    getTempProcedure(setId);
+  }, []);
+
   return (
     <div className="left-container">
       <div className="width-adjustment">
         <div className="top-wrapper">
           <div className="title-field">
-            <TextField
-              label="Title"
-              id="outlined-size-small"
-              size="small"
-              value={props.title}
-              onChange={(e) => props.inputTitle(e)}
-            />
+            {id === "" ? (
+              <TextField
+                label="Title"
+                id="outlined-size-small"
+                size="small"
+                value={props.title}
+                onChange={(e) => props.inputTitle(e)}
+              />
+            ) : (
+              <TextField
+                disabled
+                id="outlined-disabled"
+                size="small"
+                value="作成中・・・"
+              />
+            )}
             <CustomButton
               variant="contained"
               onClick={() =>
