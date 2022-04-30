@@ -13,26 +13,47 @@ export async function createTempProcedure(text, type, id, setId) {
     case type === "Title":
       if (id === "") {
         const newProcedureRef = doc(collection(db, "temp_procedure"));
-        const title = {
+        const data = {
           title: {
             title: text,
             created_at: timestamp,
           },
         };
-        await setDoc(newProcedureRef, title);
+        await setDoc(newProcedureRef, data);
         setId(newProcedureRef.id);
       }
     case type === "Phase":
-      const phase = {
-        phase: {
-          phase: text,
-          created_at: timestamp,
-        },
+      const tempProcedureRef = doc(db, "temp_procedure", id);
+      const newClumpRef = doc(collection(tempProcedureRef, "clump"));
+      const data = {
+        phase: text,
+        created_at: timestamp,
       };
-      await updateDoc(doc(db, "temp_procedure", id), phase);
+      await setDoc(newClumpRef, data);
+      setId(newClumpRef.id);
       break;
     default:
       break;
+  }
+}
+
+export async function addContent(titleId, phaseId, content) {
+  if (phaseId !== "") {
+    const tempProcedureRef = doc(db, "temp_procedure", titleId);
+    const clumpRef = doc(collection(tempProcedureRef, "clump"));
+    console.log(clumpRef.id);
+    const querySnapshot = await getDocs(collection(tempProcedureRef, "clump"));
+    querySnapshot.forEach((doc) => {
+      const existingContent = doc.data().content;
+      const data = {
+        content: [...existingContent, content],
+      };
+      console.log(data);
+      // contentを追加しようとしているけどできない
+      //   setDoc(clumpRef, data);
+    });
+  } else {
+    console.log("phaseIdが空です");
   }
 }
 

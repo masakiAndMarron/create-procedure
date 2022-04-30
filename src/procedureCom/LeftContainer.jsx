@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   createTempProcedure,
   getTempProcedure,
+  addContent,
 } from "../reducs/procedures/oparation";
 import "../assets/procedure.css";
 import { TextField, Button, styled } from "@mui/material";
@@ -16,10 +17,11 @@ const CustomButton = styled(Button)({
 });
 
 const LeftContainer = (props) => {
-  const [id, setId] = useState("");
+  const [titleId, setTitleId] = useState(""),
+    [clumpId, setClumpId] = useState("");
 
   useEffect(() => {
-    getTempProcedure(setId);
+    getTempProcedure(setTitleId);
   }, []);
 
   return (
@@ -27,7 +29,7 @@ const LeftContainer = (props) => {
       <div className="width-adjustment">
         <div className="top-wrapper">
           <div className="title-field">
-            {id === "" ? (
+            {titleId === "" ? (
               <>
                 <TextField
                   label="Title"
@@ -39,7 +41,12 @@ const LeftContainer = (props) => {
                 <CustomButton
                   variant="contained"
                   onClick={() =>
-                    createTempProcedure(props.title, "Title", id, setId)
+                    createTempProcedure(
+                      props.title,
+                      "Title",
+                      titleId,
+                      setTitleId
+                    )
                   }
                 >
                   作成
@@ -69,7 +76,9 @@ const LeftContainer = (props) => {
             />
             <CustomButton
               variant="contained"
-              onClick={() => createTempProcedure(props.phase, "Phase", id, "")}
+              onClick={() =>
+                createTempProcedure(props.phase, "Phase", titleId, setClumpId)
+              }
             >
               追加
             </CustomButton>
@@ -86,7 +95,12 @@ const LeftContainer = (props) => {
               value={props.content}
               onChange={(e) => props.inputContent(e)}
             />
-            <CustomButton variant="contained">追加</CustomButton>
+            <CustomButton
+              variant="contained"
+              onClick={() => addContent(titleId, clumpId, props.content)}
+            >
+              追加
+            </CustomButton>
           </div>
         </div>
       </div>
