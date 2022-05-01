@@ -8,11 +8,13 @@ import {
 } from "firebase/firestore";
 import { timestamp } from "../../firebase/Config";
 
+const procedureRef = collection(db, "temp_procedure");
+
 export async function createTempProcedure(text, type, id, setId) {
   switch (true) {
     case type === "Title":
       if (id === "") {
-        const newProcedureRef = doc(collection(db, "temp_procedure"));
+        const newProcedureRef = doc(procedureRef);
         const data = {
           title: {
             title: text,
@@ -23,7 +25,7 @@ export async function createTempProcedure(text, type, id, setId) {
         setId(newProcedureRef.id);
       }
     case type === "Phase":
-      const tempProcedureRef = doc(db, "temp_procedure", id);
+      const tempProcedureRef = doc(procedureRef, id);
       const newClumpRef = doc(collection(tempProcedureRef, "clump"));
       const data = {
         phase: text,
@@ -37,33 +39,36 @@ export async function createTempProcedure(text, type, id, setId) {
   }
 }
 
-export async function addContent(titleId, phaseId, content) {
-  if (phaseId !== "") {
-    console.log(phaseId);
-    const tempProcedureRef = doc(db, "temp_procedure", titleId);
-    const clumpRef = doc(collection(tempProcedureRef, "clump"));
-    const querySnapshot = await getDocs(collection(tempProcedureRef, "clump"));
-    querySnapshot.forEach((doc) => {
-      const existingContent = doc.data().content;
-      const data = {
-        content: [...existingContent, content],
-      };
-      console.log(data);
-      // contentを追加しようとしているけどできない
-      //   setDoc(clumpRef, data);
-    });
-  } else {
-    console.log("phaseIdが空です");
-  }
-}
-
 export async function getTempProcedureId(setTitleId) {
-  const querySnapshot = await getDocs(collection(db, "temp_procedure"));
+  const querySnapshot = await getDocs(procedureRef);
   if (querySnapshot) {
     querySnapshot.forEach((doc) => {
       setTitleId(doc.id);
     });
   } else {
     return;
+  }
+}
+
+export async function addContent(titleId, phaseId, content) {
+  if (phaseId !== "") {
+    const tempProcedureRef = doc(db, "temp_procedure", titleId);
+    const clumpRef = doc(collection(tempProcedureRef, "clump"), phaseId);
+    const querySnapshot = await getDocs(collection(tempProcedureRef, "clump"));
+    querySnapshot.forEach((doc) => {
+      if (!doc.data().content) {
+        const data = {
+          content: [content],
+        };
+        updateDoc(clumpRef, data);
+      } else {
+        const data = {
+          content: [...doc.data().content, content],
+        };
+        updateDoc(clumpRef, data);
+      }
+    });
+  } else {
+    console.log("phaseIdが空です");
   }
 }
