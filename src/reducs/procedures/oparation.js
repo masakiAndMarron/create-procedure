@@ -6,6 +6,9 @@ import {
   getDocs,
   updateDoc,
   getDoc,
+  query,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { timestamp } from "../../firebase/Config";
 
@@ -31,6 +34,7 @@ export async function createTempProcedure(text, type, id, setId) {
       const data = {
         phase: text,
         created_at: timestamp,
+        updated_at: timestamp,
       };
       await setDoc(newClumpRef, data);
       setId(newClumpRef.id);
@@ -41,14 +45,29 @@ export async function createTempProcedure(text, type, id, setId) {
 }
 
 export async function getTempProcedureId(setTitleId) {
+  console.log("getTempProcedureIDが呼ばれました");
   const querySnapshot = await getDocs(procedureRef);
   if (querySnapshot) {
     querySnapshot.forEach((doc) => {
       setTitleId(doc.id);
+      console.log("titleIDをセットしました。");
     });
   } else {
     return;
   }
+}
+
+export async function getClumpId(titleId, setClumpId) {
+  console.log("getClumpIdが呼ばれました");
+  const clumpRef = collection(doc(procedureRef, titleId), "clump");
+  const q = query(clumpRef, orderBy("updated_at", "desc"), limit(1));
+  const querySnapShot = await getDocs(q);
+  let id = "";
+  querySnapShot.forEach((snapshot) => {
+    id = snapshot.id;
+  });
+  setClumpId(id);
+  console.log(id);
 }
 
 export async function addContent(titleId, phaseId, content) {
@@ -62,6 +81,7 @@ export async function addContent(titleId, phaseId, content) {
     } else {
       data.content = [...docSnap.data().content, content];
     }
+    data.updated_at = timestamp;
     updateDoc(clumpRef, data);
   } else {
     console.log("phaseIdが空です");

@@ -3,6 +3,7 @@ import {
   createTempProcedure,
   getTempProcedureId,
   addContent,
+  getClumpId,
 } from "../reducs/procedures/oparation";
 import "../assets/procedure.css";
 import { TextField, Button, styled } from "@mui/material";
@@ -23,6 +24,12 @@ const LeftContainer = (props) => {
   useEffect(() => {
     getTempProcedureId(setTitleId);
   }, []);
+
+  useEffect(() => {
+    if (titleId !== "") {
+      getClumpId(titleId, setClumpId);
+    }
+  });
 
   return (
     <div className="left-container">
