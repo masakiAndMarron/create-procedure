@@ -5,6 +5,7 @@ import {
   setDoc,
   getDocs,
   updateDoc,
+  getDoc,
 } from "firebase/firestore";
 import { timestamp } from "../../firebase/Config";
 
@@ -54,20 +55,14 @@ export async function addContent(titleId, phaseId, content) {
   if (phaseId !== "") {
     const tempProcedureRef = doc(db, "temp_procedure", titleId);
     const clumpRef = doc(collection(tempProcedureRef, "clump"), phaseId);
-    const querySnapshot = await getDocs(collection(tempProcedureRef, "clump"));
-    querySnapshot.forEach((doc) => {
-      if (!doc.data().content) {
-        const data = {
-          content: [content],
-        };
-        updateDoc(clumpRef, data);
-      } else {
-        const data = {
-          content: [...doc.data().content, content],
-        };
-        updateDoc(clumpRef, data);
-      }
-    });
+    const docSnap = await getDoc(clumpRef);
+    let data = {};
+    if (!docSnap.data().content) {
+      data.content = [content];
+    } else {
+      data.content = [...docSnap.data().content, content];
+    }
+    updateDoc(clumpRef, data);
   } else {
     console.log("phaseIdが空です");
   }
