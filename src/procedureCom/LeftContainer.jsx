@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   createTempProcedure,
-  getTempProcedure,
+  getTempProcedureId,
   addContent,
 } from "../reducs/procedures/oparation";
 import "../assets/procedure.css";
@@ -21,7 +21,7 @@ const LeftContainer = (props) => {
     [clumpId, setClumpId] = useState("");
 
   useEffect(() => {
-    getTempProcedure(setTitleId);
+    getTempProcedureId(setTitleId);
   }, []);
 
   return (

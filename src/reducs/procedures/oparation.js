@@ -39,9 +39,9 @@ export async function createTempProcedure(text, type, id, setId) {
 
 export async function addContent(titleId, phaseId, content) {
   if (phaseId !== "") {
+    console.log(phaseId);
     const tempProcedureRef = doc(db, "temp_procedure", titleId);
     const clumpRef = doc(collection(tempProcedureRef, "clump"));
-    console.log(clumpRef.id);
     const querySnapshot = await getDocs(collection(tempProcedureRef, "clump"));
     querySnapshot.forEach((doc) => {
       const existingContent = doc.data().content;
@@ -57,11 +57,11 @@ export async function addContent(titleId, phaseId, content) {
   }
 }
 
-export async function getTempProcedure(setId) {
+export async function getTempProcedureId(setTitleId) {
   const querySnapshot = await getDocs(collection(db, "temp_procedure"));
   if (querySnapshot) {
     querySnapshot.forEach((doc) => {
-      setId(doc.id);
+      setTitleId(doc.id);
     });
   } else {
     return;
