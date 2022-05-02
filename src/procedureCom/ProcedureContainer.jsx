@@ -38,6 +38,8 @@ const ProcedureContainer = () => {
         inputTitle={inputTitle}
         inputPhase={inputPhase}
         inputContent={inputContent}
+        setPhase={setPhase}
+        setContent={setContent}
         title={title}
         phase={phase}
         content={content}

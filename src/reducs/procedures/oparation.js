@@ -14,7 +14,13 @@ import { timestamp } from "../../firebase/Config";
 
 const procedureRef = collection(db, "temp_procedure");
 
-export async function createTempProcedure(text, type, id, setId) {
+export async function createTempProcedure(
+  text,
+  type,
+  id,
+  setId,
+  clearTextarea
+) {
   switch (true) {
     case type === "Title":
       if (id === "") {
@@ -38,6 +44,7 @@ export async function createTempProcedure(text, type, id, setId) {
       };
       await setDoc(newClumpRef, data);
       setId(newClumpRef.id);
+      clearTextarea("");
       break;
     default:
       break;
@@ -66,7 +73,7 @@ export async function getClumpId(titleId, setClumpId) {
   setClumpId(id);
 }
 
-export async function addContent(titleId, phaseId, content) {
+export async function addContent(titleId, phaseId, content, clearTextarea) {
   if (phaseId !== "") {
     const tempProcedureRef = doc(db, "temp_procedure", titleId);
     const clumpRef = doc(collection(tempProcedureRef, "clump"), phaseId);
@@ -79,7 +86,9 @@ export async function addContent(titleId, phaseId, content) {
     }
     data.updated_at = timestamp;
     updateDoc(clumpRef, data);
+    clearTextarea("");
   } else {
-    console.log("phaseIdが空です");
+    console.log("phaseを入力してください");
+    return <div>Phaseを入力してください</div>;
   }
 }

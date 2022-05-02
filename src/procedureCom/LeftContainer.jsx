@@ -25,6 +25,7 @@ const LeftContainer = (props) => {
     if (titleId === "") {
       getTempProcedureId(setTitleId);
     }
+    console.log(clumpId);
   }, []);
 
   useEffect(() => {
@@ -86,7 +87,13 @@ const LeftContainer = (props) => {
             <CustomButton
               variant="contained"
               onClick={() =>
-                createTempProcedure(props.phase, "Phase", titleId, setClumpId)
+                createTempProcedure(
+                  props.phase,
+                  "Phase",
+                  titleId,
+                  setClumpId,
+                  props.setPhase
+                )
               }
             >
               追加
@@ -106,7 +113,9 @@ const LeftContainer = (props) => {
             />
             <CustomButton
               variant="contained"
-              onClick={() => addContent(titleId, clumpId, props.content)}
+              onClick={() =>
+                addContent(titleId, clumpId, props.content, props.setContent)
+              }
             >
               追加
             </CustomButton>
