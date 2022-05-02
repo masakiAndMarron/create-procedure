@@ -4,7 +4,7 @@ import {
   getTempProcedureId,
   addContent,
   getClumpId,
-} from "../reducs/procedures/oparation";
+} from "../reducs/procedures/createFirestore";
 import "../assets/procedure.css";
 import { TextField, Button, styled } from "@mui/material";
 
@@ -19,7 +19,8 @@ const CustomButton = styled(Button)({
 
 const LeftContainer = (props) => {
   const [titleId, setTitleId] = useState(""),
-    [clumpId, setClumpId] = useState("");
+    [clumpId, setClumpId] = useState(""),
+    [contentErrorFlag, switchContentErrorFlag] = useState(false);
 
   useEffect(() => {
     if (titleId === "") {
@@ -114,12 +115,21 @@ const LeftContainer = (props) => {
             <CustomButton
               variant="contained"
               onClick={() =>
-                addContent(titleId, clumpId, props.content, props.setContent)
+                addContent(
+                  titleId,
+                  clumpId,
+                  props.content,
+                  props.setContent,
+                  switchContentErrorFlag
+                )
               }
             >
               追加
             </CustomButton>
           </div>
+          {contentErrorFlag && (
+            <div className="error-message">※フェーズを入力してください</div>
+          )}
         </div>
       </div>
     </div>
