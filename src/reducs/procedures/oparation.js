@@ -45,12 +45,10 @@ export async function createTempProcedure(text, type, id, setId) {
 }
 
 export async function getTempProcedureId(setTitleId) {
-  console.log("getTempProcedureIDが呼ばれました");
   const querySnapshot = await getDocs(procedureRef);
   if (querySnapshot) {
     querySnapshot.forEach((doc) => {
       setTitleId(doc.id);
-      console.log("titleIDをセットしました。");
     });
   } else {
     return;
@@ -58,7 +56,6 @@ export async function getTempProcedureId(setTitleId) {
 }
 
 export async function getClumpId(titleId, setClumpId) {
-  console.log("getClumpIdが呼ばれました");
   const clumpRef = collection(doc(procedureRef, titleId), "clump");
   const q = query(clumpRef, orderBy("updated_at", "desc"), limit(1));
   const querySnapShot = await getDocs(q);
@@ -67,7 +64,6 @@ export async function getClumpId(titleId, setClumpId) {
     id = snapshot.id;
   });
   setClumpId(id);
-  console.log(id);
 }
 
 export async function addContent(titleId, phaseId, content) {

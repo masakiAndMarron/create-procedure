@@ -22,14 +22,16 @@ const LeftContainer = (props) => {
     [clumpId, setClumpId] = useState("");
 
   useEffect(() => {
-    getTempProcedureId(setTitleId);
+    if (titleId === "") {
+      getTempProcedureId(setTitleId);
+    }
   }, []);
 
   useEffect(() => {
     if (titleId !== "") {
       getClumpId(titleId, setClumpId);
     }
-  });
+  }, [titleId]);
 
   return (
     <div className="left-container">
