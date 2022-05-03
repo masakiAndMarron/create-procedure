@@ -9,10 +9,28 @@ const RightContainer = (props) => {
     readTempProcedure(title, clump, setTitle, setClump);
   }, []);
 
+  if (clump) {
+    console.log(Object.entries(Object.keys(clump)));
+  }
+
   return (
-    <div>
-      <div></div>
-    </div>
+    <main className="right-container-wrapper">
+      <article>
+        <h2>{title && <div>{title}</div>}</h2>
+        {clump && (
+          <>
+            <section>
+              <h3></h3>
+              <ol>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ol>
+            </section>
+          </>
+        )}
+      </article>
+    </main>
   );
 };
 

@@ -1,3 +1,9 @@
+/* ProcedureContainer */
+.container-wrapper {
+  display: flex;
+}
+
+/* LeftContainer */
 .left-container {
   width: 600px;
   background: #cccccc;
@@ -29,3 +35,5 @@
   color: red;
   font-weight: 600;
 }
+
+/* RightContainer */

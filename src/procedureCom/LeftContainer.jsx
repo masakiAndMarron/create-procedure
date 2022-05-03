@@ -5,7 +5,6 @@ import {
   addContent,
   getClumpId,
 } from "../reducs/procedures/createFirestore";
-import "../assets/procedure.css";
 import { TextField, Button, styled } from "@mui/material";
 
 const CustomContentField = styled(TextField)({

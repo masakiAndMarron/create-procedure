@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import LeftContainer from "./LeftContainer";
 import RightContainer from "./RightContainer";
 import { AppBar, Toolbar } from "@mui/material";
+import "../assets/procedure.css";
 
 const ProcedureContainer = () => {
   const [title, setTitle] = useState(""),
@@ -31,20 +32,22 @@ const ProcedureContainer = () => {
 
   return (
     <div>
-      <AppBar>
+      {/* <AppBar>
         <Toolbar></Toolbar>
-      </AppBar>
-      <LeftContainer
-        inputTitle={inputTitle}
-        inputPhase={inputPhase}
-        inputContent={inputContent}
-        setPhase={setPhase}
-        setContent={setContent}
-        title={title}
-        phase={phase}
-        content={content}
-      />
-      <RightContainer />
+      </AppBar> */}
+      <div className="container-wrapper">
+        <LeftContainer
+          inputTitle={inputTitle}
+          inputPhase={inputPhase}
+          inputContent={inputContent}
+          setPhase={setPhase}
+          setContent={setContent}
+          title={title}
+          phase={phase}
+          content={content}
+        />
+        <RightContainer />
+      </div>
     </div>
   );
 };
