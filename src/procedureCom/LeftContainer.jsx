@@ -25,7 +25,6 @@ const LeftContainer = (props) => {
     if (titleId === "") {
       getTempProcedureId(setTitleId);
     }
-    console.log(clumpId);
   }, []);
 
   useEffect(() => {
