@@ -6,6 +6,7 @@ import "../assets/procedure.css";
 
 const ProcedureContainer = () => {
   const [title, setTitle] = useState(""),
+    [clumps, setClump] = useState(""),
     [phase, setPhase] = useState(""),
     [content, setContent] = useState("");
 
@@ -45,8 +46,15 @@ const ProcedureContainer = () => {
           title={title}
           phase={phase}
           content={content}
+          clumps={clumps}
+          setClump={setClump}
         />
-        <RightContainer />
+        <RightContainer
+          clumps={clumps}
+          setClump={setClump}
+          title={title}
+          setTitle={setTitle}
+        />
       </div>
     </div>
   );

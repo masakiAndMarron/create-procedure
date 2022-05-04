@@ -54,7 +54,9 @@ const LeftContainer = (props) => {
                       props.title,
                       "Title",
                       titleId,
-                      setTitleId
+                      setTitleId,
+                      props.clumps,
+                      props.setClump
                     )
                   }
                 >
@@ -91,7 +93,9 @@ const LeftContainer = (props) => {
                   "Phase",
                   titleId,
                   setClumpId,
-                  props.setPhase
+                  props.setPhase,
+                  props.clumps,
+                  props.setClump
                 )
               }
             >
@@ -118,7 +122,9 @@ const LeftContainer = (props) => {
                   clumpId,
                   props.content,
                   props.setContent,
-                  switchContentErrorFlag
+                  switchContentErrorFlag,
+                  props.clumps,
+                  props.setClump
                 )
               }
             >

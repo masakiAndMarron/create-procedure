@@ -19,12 +19,16 @@ export async function createTempProcedure(
   type,
   id,
   setId,
-  clearTextarea
+  clearTextarea,
+  clumps,
+  setClump
 ) {
   switch (true) {
     case type === "Title":
       if (id === "") {
         const newProcedureRef = doc(procedureRef);
+        const obj = {};
+        obj["temp_procedure"] = {};
         const data = {
           title: {
             title: text,
@@ -32,11 +36,14 @@ export async function createTempProcedure(
           },
         };
         await setDoc(newProcedureRef, data);
+        setClump(obj);
         setId(newProcedureRef.id);
       }
     case type === "Phase":
       const tempProcedureRef = doc(procedureRef, id);
       const newClumpRef = doc(collection(tempProcedureRef, "clump"));
+      clumps["temp_procedure"][text] = [];
+      //firestoreに追加する用のデータ
       const data = {
         phase: text,
         created_at: timestamp,
@@ -44,6 +51,7 @@ export async function createTempProcedure(
       };
       await setDoc(newClumpRef, data);
       setId(newClumpRef.id);
+      setClump(clumps);
       clearTextarea("");
       break;
     default:
@@ -78,7 +86,9 @@ export async function addContent(
   phaseId,
   content,
   clearTextarea,
-  switchContentErrorFlag
+  switchContentErrorFlag,
+  clumps,
+  setClump
 ) {
   if (phaseId !== "") {
     const tempProcedureRef = doc(db, "temp_procedure", titleId);
@@ -87,11 +97,17 @@ export async function addContent(
     let data = {};
     if (!docSnap.data().content) {
       data.content = [content];
+      clumps["temp_procedure"][docSnap.data().phase] = [content];
     } else {
       data.content = [...docSnap.data().content, content];
+      clumps["temp_procedure"][docSnap.data().phase] = [
+        ...docSnap.data().content,
+        content,
+      ];
     }
     data.updated_at = timestamp;
     updateDoc(clumpRef, data);
+    setClump(clumps);
     clearTextarea("");
   } else {
     console.log("phaseを入力してください");
