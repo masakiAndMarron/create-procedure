@@ -8,8 +8,6 @@ const RightContainer = (props) => {
   const setClump = props.setClump;
   const setTitle = props.setTitle;
 
-  console.log(clumps);
-
   useEffect(() => {
     readTempProcedure(title, clumps, setTitle, setClump);
   }, []);

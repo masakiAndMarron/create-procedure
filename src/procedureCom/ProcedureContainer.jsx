@@ -43,17 +43,17 @@ const ProcedureContainer = () => {
           inputContent={inputContent}
           setPhase={setPhase}
           setContent={setContent}
+          setClump={setClump}
           title={title}
+          clumps={clumps}
           phase={phase}
           content={content}
-          clumps={clumps}
-          setClump={setClump}
         />
         <RightContainer
-          clumps={clumps}
+          setTitle={setTitle}
           setClump={setClump}
           title={title}
-          setTitle={setTitle}
+          clumps={clumps}
         />
       </div>
     </div>
