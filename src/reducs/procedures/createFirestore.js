@@ -28,15 +28,20 @@ export async function createTempProcedure(
       if (id === "") {
         const newProcedureRef = doc(procedureRef);
         const obj = {};
+        //stateの初期値
         obj["temp_procedure"] = {};
+        //firestoreのデータ構成
         const data = {
           title: {
             title: text,
             created_at: timestamp,
           },
         };
+        //firestore新規作成
         await setDoc(newProcedureRef, data);
+        //state新規作成
         setClump(obj);
+        //stateで作成したtitleのidを管理。
         setId(newProcedureRef.id);
       }
     case type === "Phase":
