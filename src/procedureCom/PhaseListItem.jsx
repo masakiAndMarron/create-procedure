@@ -1,5 +1,6 @@
 import React from "react";
 import ContentListItem from "./ContentListItem";
+import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 
 const PhaseListItem = (props) => {
   const phase = props.phase;
@@ -7,11 +8,20 @@ const PhaseListItem = (props) => {
 
   return (
     <>
-      <h3>{phase}</h3>
-      {tempProcedure[phase] &&
-        tempProcedure[phase].map((contents, index) => (
-          <ContentListItem contents={contents} key={index} />
-        ))}
+      <ol className="phase-container">
+        <div>
+          <h3>
+            <span>
+              <KeyboardArrowRightRoundedIcon />
+            </span>
+            {phase}
+          </h3>
+        </div>
+        {tempProcedure[phase] &&
+          tempProcedure[phase].map((contents, index) => (
+            <ContentListItem contents={contents} key={index} />
+          ))}
+      </ol>
     </>
   );
 };

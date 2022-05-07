@@ -37,3 +37,34 @@
 }
 
 /* RightContainer */
+.right-container-wrapper {
+  outline: 1px solid red;
+  flex: 1;
+}
+.title-wrapper {
+  display: flex;
+  padding: 0;
+}
+.title-wrapper > h2 {
+  line-height: 64px;
+  padding: 0 10px;
+}
+.title-wrapper > span {
+  line-height: 64px;
+  margin-left: 15px;
+}
+.phase-container {
+  outline: 1px solid;
+  border-radius: 8px 8px 0 0;
+  list-style: none;
+  margin: 40px auto 0;
+  padding: 0;
+  width: 60%;
+}
+.phase-container > div {
+  border-bottom: 1px solid;
+}
+.phase-container > div > h3 {
+  margin: 0;
+  padding: 0;
+}

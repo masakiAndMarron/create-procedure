@@ -15,7 +15,10 @@ const RightContainer = (props) => {
   return (
     <main className="right-container-wrapper">
       <article>
-        <h2>{title && <div>{title}</div>}</h2>
+        <div className="title-wrapper">
+          <h2>{title && <div>{title}</div>}</h2>
+          <span>を作成中・・・</span>
+        </div>
         {clumps !== "" &&
           Object.keys(clumps["temp_procedure"]).map((phases, index) => (
             <PhaseListItem clumps={clumps} phase={phases} key={index} />

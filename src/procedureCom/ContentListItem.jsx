@@ -1,9 +1,15 @@
 import React from "react";
+import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 
 const ContentListItem = (props) => {
   return (
     <>
-      <div>{props.contents}</div>
+      <li>
+        <div>{props.contents}</div>
+        <div>
+          <DeleteForeverTwoToneIcon />
+        </div>
+      </li>
     </>
   );
 };
