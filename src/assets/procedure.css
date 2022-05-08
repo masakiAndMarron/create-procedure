@@ -36,7 +36,7 @@
   font-weight: 600;
 }
 
-/* RightContainer */
+/*★ RightContainer */
 .right-container-wrapper {
   outline: 1px solid red;
   flex: 1;
@@ -53,6 +53,8 @@
   line-height: 64px;
   margin-left: 15px;
 }
+
+/* phase-container */
 .phase-container {
   outline: 1px solid;
   border-radius: 8px 8px 0 0;
@@ -67,4 +69,16 @@
 .phase-container > div > h3 {
   margin: 0;
   padding: 0;
+}
+
+/* content-container */
+
+.content-container {
+  font-size: 18px;
+  display: flex;
+  margin: 10px 8px 10px 70px;
+  line-height: 40px;
+}
+.content-container > .content {
+  width: 80%;
 }
