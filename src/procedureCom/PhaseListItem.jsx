@@ -9,7 +9,7 @@ const PhaseListItem = (props) => {
   return (
     <>
       <ol className="phase-container">
-        <div>
+        <div className="phase-name-wrapper">
           <h3>
             <span>
               <KeyboardArrowRightRoundedIcon />

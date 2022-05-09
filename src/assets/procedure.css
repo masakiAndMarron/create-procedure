@@ -1,3 +1,5 @@
+:root {
+}
 /* ProcedureContainer */
 .container-wrapper {
   display: flex;
@@ -6,7 +8,6 @@
 /* LeftContainer */
 .left-container {
   width: 600px;
-  background: #cccccc;
   margin-top: 80px;
 }
 .width-adjustment {
@@ -63,6 +64,13 @@
   padding: 0;
   width: 60%;
 }
+.phase-name-wrapper {
+  line-height: 36px;
+}
+.phase-name-wrapper > h3 > span {
+  margin: auto 8px;
+  vertical-align: middle;
+}
 .phase-container > div {
   border-bottom: 1px solid;
 }
@@ -76,9 +84,14 @@
 .content-container {
   font-size: 18px;
   display: flex;
-  margin: 10px 8px 10px 70px;
+  margin: 10px 8px 10px 15px;
   line-height: 40px;
 }
 .content-container > .content {
   width: 80%;
+}
+.content-container > .content-delete {
+  width: 20%;
+  text-align: center;
+  margin: auto 0;
 }

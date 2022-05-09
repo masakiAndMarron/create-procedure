@@ -1,6 +1,13 @@
 import React from "react";
-import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
-import { Divider } from "@mui/material";
+import DeleteOutlineSharpIcon from "@mui/icons-material/DeleteOutlineSharp";
+import { Divider, styled } from "@mui/material";
+
+const CustomDeleteIcon = styled(DeleteOutlineSharpIcon)({
+  width: "30px",
+  height: "30px",
+  verticalAlign: "middle",
+  paddingBottom: "3px",
+});
 
 const ContentListItem = (props) => {
   return (
@@ -8,10 +15,11 @@ const ContentListItem = (props) => {
       <li className="content-container">
         <div className="content">{props.contents}</div>
         <div className="content-delete">
-          <DeleteForeverTwoToneIcon />
+          <CustomDeleteIcon />
         </div>
       </li>
-      <Divider variant="inset" component="li" />
+
+      <Divider />
     </>
   );
 };
