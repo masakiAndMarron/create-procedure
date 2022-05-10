@@ -1,8 +1,10 @@
 :root {
+  --theme-color: 80;
 }
 /* ProcedureContainer */
 .container-wrapper {
   display: flex;
+  background: hsl(var(--theme-color) 60% 90%);
 }
 
 /* LeftContainer */
@@ -73,10 +75,12 @@
 }
 .phase-container > div {
   border-bottom: 1px solid;
+  background: hsl(var(--theme-color) 80% 50%);
 }
 .phase-container > div > h3 {
   margin: 0;
   padding: 0;
+  color: white;
 }
 
 /* content-container */
