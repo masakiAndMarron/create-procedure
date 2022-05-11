@@ -18,8 +18,6 @@ const ContentListItem = (props) => {
           <CustomDeleteIcon />
         </div>
       </li>
-
-      <Divider />
     </>
   );
 };

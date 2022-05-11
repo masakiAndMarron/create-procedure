@@ -10,12 +10,7 @@ const PhaseListItem = (props) => {
     <>
       <ol className="phase-container">
         <div className="phase-name-wrapper">
-          <h3>
-            <span>
-              <KeyboardArrowRightRoundedIcon />
-            </span>
-            {phase}
-          </h3>
+          <h3>{phase}</h3>
         </div>
         {tempProcedure[phase] &&
           tempProcedure[phase].map((contents, index) => (

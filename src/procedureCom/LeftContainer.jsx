@@ -14,6 +14,10 @@ const CustomContentField = styled(TextField)({
 
 const CustomButton = styled(Button)({
   marginLeft: "24px",
+  backgroundColor: "hsl(80,60%,50%)",
+  ":hover": {
+    backgroundColor: "hsl(80,60%,30%)",
+  },
 });
 
 const LeftContainer = (props) => {
