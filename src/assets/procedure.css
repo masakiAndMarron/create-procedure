@@ -1,12 +1,15 @@
+:root {
+  --theme-color: 80;
+}
 /* ProcedureContainer */
 .container-wrapper {
   display: flex;
+  background: hsl(var(--theme-color) 60% 90%);
 }
 
 /* LeftContainer */
 .left-container {
   width: 600px;
-  background: #cccccc;
   margin-top: 80px;
 }
 .width-adjustment {
@@ -36,4 +39,24 @@
   font-weight: 600;
 }
 
-/* RightContainer */
+/*★ RightContainer */
+.right-container-wrapper {
+  outline: 1px solid red;
+  flex: 1;
+}
+.title-wrapper {
+  display: flex;
+  padding: 0;
+}
+.title-wrapper > h2 {
+  line-height: 64px;
+  padding: 0 10px;
+}
+.title-wrapper > span {
+  line-height: 64px;
+  margin-left: 15px;
+}
+
+/* phase-container */
+
+/* content-container */

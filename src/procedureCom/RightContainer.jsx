@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { readTempProcedure } from "../reducs/procedures/readFirestore";
 import PhaseListItem from "./PhaseListItem";
 
-const RightContainer = () => {
-  const [title, setTitle] = useState(""),
-    [clumps, setClump] = useState("");
+const RightContainer = (props) => {
+  const title = props.title;
+  const clumps = props.clumps;
+  const setClump = props.setClump;
+  const setTitle = props.setTitle;
 
   useEffect(() => {
     readTempProcedure(title, clumps, setTitle, setClump);
@@ -13,7 +15,10 @@ const RightContainer = () => {
   return (
     <main className="right-container-wrapper">
       <article>
-        <h2>{title && <div>{title}</div>}</h2>
+        <div className="title-wrapper">
+          <h2>{title && <div>{title}</div>}</h2>
+          <span>を作成中・・・</span>
+        </div>
         {clumps !== "" &&
           Object.keys(clumps["temp_procedure"]).map((phases, index) => (
             <PhaseListItem clumps={clumps} phase={phases} key={index} />

@@ -14,12 +14,24 @@ const CustomContentField = styled(TextField)({
 
 const CustomButton = styled(Button)({
   marginLeft: "24px",
+  backgroundColor: "hsl(80,60%,50%)",
+  ":hover": {
+    backgroundColor: "hsl(80,60%,30%)",
+  },
 });
 
 const LeftContainer = (props) => {
   const [titleId, setTitleId] = useState(""),
     [clumpId, setClumpId] = useState(""),
     [contentErrorFlag, switchContentErrorFlag] = useState(false);
+
+  const setClump = props.setClump;
+  const setPhase = props.setPhase;
+  const setContent = props.setContent;
+  const title = props.title;
+  const clumps = props.clumps;
+  const phase = props.phase;
+  const content = props.content;
 
   useEffect(() => {
     if (titleId === "") {
@@ -44,17 +56,19 @@ const LeftContainer = (props) => {
                   label="Title"
                   id="outlined-size-small"
                   size="small"
-                  value={props.title}
+                  value={title}
                   onChange={(e) => props.inputTitle(e)}
                 />
                 <CustomButton
                   variant="contained"
                   onClick={() =>
                     createTempProcedure(
-                      props.title,
+                      title,
                       "Title",
                       titleId,
-                      setTitleId
+                      setTitleId,
+                      clumps,
+                      setClump
                     )
                   }
                 >
@@ -80,18 +94,20 @@ const LeftContainer = (props) => {
               label="Phase"
               id="outlined-size-small"
               size="small"
-              value={props.phase}
+              value={phase}
               onChange={(e) => props.inputPhase(e)}
             />
             <CustomButton
               variant="contained"
               onClick={() =>
                 createTempProcedure(
-                  props.phase,
+                  phase,
                   "Phase",
                   titleId,
                   setClumpId,
-                  props.setPhase
+                  setPhase,
+                  clumps,
+                  setClump
                 )
               }
             >
@@ -107,7 +123,7 @@ const LeftContainer = (props) => {
               multiline
               rows={7}
               variant="standard"
-              value={props.content}
+              value={content}
               onChange={(e) => props.inputContent(e)}
             />
             <CustomButton
@@ -116,9 +132,11 @@ const LeftContainer = (props) => {
                 addContent(
                   titleId,
                   clumpId,
-                  props.content,
-                  props.setContent,
-                  switchContentErrorFlag
+                  content,
+                  setContent,
+                  switchContentErrorFlag,
+                  clumps,
+                  setClump
                 )
               }
             >
