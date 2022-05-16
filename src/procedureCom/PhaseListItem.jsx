@@ -3,14 +3,9 @@ import ContentListItem from "./ContentListItem";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 
 const PhaseListItem = (props) => {
-  const [phaseCount, setPhaseCount] = useState(0);
   const phase = props.phase;
   const tempProcedure = props.clumps["temp_procedure"];
-
-  useEffect(() => {
-    setPhaseCount(phaseCount + 1);
-    console.log(phaseCount);
-  }, []);
+  const clumpId = tempProcedure[phase].id;
 
   return (
     <>
@@ -24,8 +19,12 @@ const PhaseListItem = (props) => {
           </h3>
         </div>
         {tempProcedure[phase] &&
-          tempProcedure[phase].map((contents, index) => (
-            <ContentListItem contents={contents} key={index} />
+          tempProcedure[phase].content.map((contents, index) => (
+            <ContentListItem
+              contents={contents}
+              clumpId={clumpId}
+              key={index}
+            />
           ))}
       </ol>
     </>

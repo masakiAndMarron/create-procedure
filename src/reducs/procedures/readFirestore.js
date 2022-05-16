@@ -2,7 +2,7 @@ import { db, timestamp } from "../../firebase/Config";
 import { collection, doc, getDocs, query, orderBy } from "firebase/firestore";
 import { procedureRef } from "./createFirestore";
 
-export const readTempProcedure = (title, clumps, setTitle, setClump) => {
+export const readTempProcedure = (setTitle, setClump) => {
   return new Promise((resolve, reject) => {
     //temp_procedureデータを取得
     const tempProcedureRef = getDocs(procedureRef);
@@ -23,8 +23,12 @@ export const readTempProcedure = (title, clumps, setTitle, setClump) => {
       results.forEach((result) => {
         let phase = result.data().phase;
         let content = result.data().content;
-        obj[phase] = content;
+        obj[phase] = {
+          id: result.id,
+          content: content,
+        };
       });
+      console.log(obj);
       setClump({ temp_procedure: obj });
     });
   });

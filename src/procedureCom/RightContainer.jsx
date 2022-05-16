@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { readTempProcedure } from "../reducs/procedures/readFirestore";
 import PhaseListItem from "./PhaseListItem";
 
@@ -9,7 +9,7 @@ const RightContainer = (props) => {
   const setTitle = props.setTitle;
 
   useEffect(() => {
-    readTempProcedure(title, clumps, setTitle, setClump);
+    readTempProcedure(setTitle, setClump);
   }, []);
 
   return (

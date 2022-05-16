@@ -53,6 +53,7 @@ export async function createTempProcedure(
         phase: text,
         created_at: timestamp,
         updated_at: timestamp,
+        clump_id: newClumpRef.id,
       };
       await setDoc(newClumpRef, data);
       setId(newClumpRef.id);
