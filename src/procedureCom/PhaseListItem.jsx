@@ -18,7 +18,7 @@ const PhaseListItem = (props) => {
             {phase}
           </h3>
         </div>
-        {tempProcedure[phase] &&
+        {tempProcedure[phase].content &&
           tempProcedure[phase].content.map((contents, index) => (
             <ContentListItem
               contents={contents}

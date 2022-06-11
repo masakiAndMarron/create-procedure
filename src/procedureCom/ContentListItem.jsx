@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DeleteOutlineSharpIcon from "@mui/icons-material/DeleteOutlineSharp";
 import { Divider, styled } from "@mui/material";
 
@@ -18,7 +18,6 @@ const ContentListItem = (props) => {
           <CustomDeleteIcon />
         </div>
       </li>
-
       <Divider />
     </>
   );

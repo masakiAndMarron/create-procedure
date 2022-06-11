@@ -21,7 +21,11 @@ const RightContainer = (props) => {
         </div>
         {clumps !== "" &&
           Object.keys(clumps["temp_procedure"]).map((phases, index) => (
-            <PhaseListItem clumps={clumps} phase={phases} key={index} />
+            <PhaseListItem
+              clumps={clumps}
+              phase={phases}
+              key={clumps["temp_procedure"][phases].id}
+            />
           ))}
       </article>
     </main>

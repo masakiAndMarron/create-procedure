@@ -101,19 +101,20 @@ export async function addContent(
     const clumpRef = doc(collection(tempProcedureRef, "clump"), phaseId);
     const docSnap = await getDoc(clumpRef);
     let data = {};
+    let tempObj = { ...clumps };
     if (!docSnap.data().content) {
       data.content = [content];
-      clumps["temp_procedure"][docSnap.data().phase] = [content];
+      tempObj["temp_procedure"][docSnap.data().phase].content = [content];
     } else {
       data.content = [...docSnap.data().content, content];
-      clumps["temp_procedure"][docSnap.data().phase] = [
+      tempObj["temp_procedure"][docSnap.data().phase].content = [
         ...docSnap.data().content,
         content,
       ];
     }
     data.updated_at = timestamp;
     updateDoc(clumpRef, data);
-    setClump(clumps);
+    setClump(tempObj);
     clearTextarea("");
   } else {
     console.log("phaseを入力してください");

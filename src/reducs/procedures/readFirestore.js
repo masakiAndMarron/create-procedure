@@ -28,7 +28,6 @@ export const readTempProcedure = (setTitle, setClump) => {
           content: content,
         };
       });
-      console.log(obj);
       setClump({ temp_procedure: obj });
     });
   });
