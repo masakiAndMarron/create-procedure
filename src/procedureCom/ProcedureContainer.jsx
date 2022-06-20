@@ -32,7 +32,7 @@ const ProcedureContainer = () => {
   );
 
   return (
-    <div>
+    <div className="container-frame">
       {/* <AppBar>
         <Toolbar></Toolbar>
       </AppBar> */}

@@ -111,6 +111,18 @@ export async function addContent(
         ...docSnap.data().content,
         content,
       ];
+      // let phaseCounter = 1;
+      // Object.keys(tempObj["temp_procedure"]).map((phase) => {
+      //   tempObj["temp_procedure"][phase].content = [
+      //     ...tempObj["temp_procedure"][phase].content,
+      //     phaseCounter +
+      //       "-" +
+      //       (tempObj["temp_procedure"][phase].content.length + 1) +
+      //       ". " +
+      //       content,
+      //   ];
+      //   phaseCounter += 1;
+      // });
     }
     data.updated_at = timestamp;
     updateDoc(clumpRef, data);

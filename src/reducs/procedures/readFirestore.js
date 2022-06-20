@@ -20,13 +20,22 @@ export const readTempProcedure = (setTitle, setClump) => {
       });
     }).then(function (results) {
       let obj = {};
+      let phaseCounter = 1;
+      let contentCounter = 0;
       results.forEach((result) => {
+        // let phase = phaseCounter + ". " + result.data().phase;
         let phase = result.data().phase;
-        let content = result.data().content;
+        let contents = result.data().content;
+        // let content = contents.map((value) => {
+        //   contentCounter = contentCounter + 1;
+        //   return phaseCounter + "-" + contentCounter + ". " + value;
+        // });
+
         obj[phase] = {
           id: result.id,
-          content: content,
+          content: contents,
         };
+        phaseCounter = phaseCounter + 1;
       });
       setClump({ temp_procedure: obj });
     });

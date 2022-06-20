@@ -5,7 +5,11 @@ html {
   font-size: 62.5%;
 }
 /* ProcedureContainer */
+.container-frame {
+  height: 100%;
+}
 .container-wrapper {
+  height: 100%;
   display: flex;
   background: hsl(var(--theme-color) 60% 90%);
 }

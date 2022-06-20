@@ -22,6 +22,7 @@ const RightContainer = (props) => {
         {clumps !== "" &&
           Object.keys(clumps["temp_procedure"]).map((phases, index) => (
             <PhaseListItem
+              // length={Object.keys(clumps["temp_procedure"]).length}
               clumps={clumps}
               phase={phases}
               key={clumps["temp_procedure"][phases].id}
