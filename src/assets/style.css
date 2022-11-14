@@ -19,7 +19,6 @@ html,
 body,
 #react-root,
 .container {
-  height: 100%;
   background: rgba(var(--Ltc1), 1);
 }
 .signin-wrapper {

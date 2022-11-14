@@ -1,29 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ContentListItem from "./ContentListItem";
-import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 
 const PhaseListItem = (props) => {
+  const procedureType = props.procedureType;
+  const setTitle = props.setTitle;
+  const setClump = props.setClump;
+  const titleId = props.titleId;
   const phase = props.phase;
-  const tempProcedure = props.clumps["temp_procedure"];
+  const tempProcedure = props.clumps[procedureType];
   const clumpId = tempProcedure[phase].id;
+  const contentList = props.clumps[procedureType][phase];
 
   return (
     <>
       <ol className="phase-container">
         <div className="phase-name-wrapper">
-          <h3>
-            <span>
-              <KeyboardArrowRightRoundedIcon />
-            </span>
-            {phase}
-          </h3>
+          <div className="phase-name">
+            <h3>{phase}</h3>
+          </div>
         </div>
-        {tempProcedure[phase].content &&
-          tempProcedure[phase].content.map((contents, index) => (
+        {tempProcedure[phase].contents &&
+          tempProcedure[phase].contents.map((value, index) => (
             <ContentListItem
-              contents={contents}
+              procedureType={procedureType}
+              setTitle={setTitle}
+              titleId={titleId}
+              setClump={setClump}
               clumpId={clumpId}
-              key={index}
+              content={value.content}
+              id={value.id}
+              contentList={contentList}
+              key={value.id}
             />
           ))}
       </ol>

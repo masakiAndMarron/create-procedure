@@ -3,6 +3,7 @@
 }
 html {
   font-size: 62.5%;
+  /* background: hsl(var(--theme-color) 60% 90%); */
 }
 /* ProcedureContainer */
 .container-frame {
@@ -48,34 +49,67 @@ html {
 
 /*★ RightContainer */
 .right-container-wrapper {
-  outline: 1px solid red;
   flex: 1;
+  padding-bottom: 60px;
+  border-left: 1px solid;
 }
 .title-wrapper {
   display: flex;
-  padding: 0;
+  justify-content: center;
+  margin: 10px auto;
 }
 .title-wrapper > h2 {
   line-height: 64px;
   padding: 0 10px;
+  color: hsl(var(--theme-color) 70% 40%);
 }
 .title-wrapper > span {
   line-height: 64px;
   margin-left: 15px;
 }
+.procedure-wrapper {
+  min-width: 600px;
+  width: 60%;
+  margin: 0 auto;
+  outline: thick double #a9a9a9;
+  border-radius: 6px;
+}
+
+.decide-button-area {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  border-top: 1px solid;
+  border-left: 1px solid;
+  border-radius: 10px 0 0 0;
+  padding-top: 24px;
+  background: white;
+}
 
 /* phase-container */
 .phase-container {
-  outline: 1px solid;
-  border-radius: 8px 8px 0 0;
+  //border-radius: 8px 8px 0 0;
   list-style: none;
-  margin: 20px auto 0;
+  margin: 0 auto;
   padding: 0;
-  width: 60%;
 }
 .phase-name-wrapper {
-  line-height: 36px;
+  height: 60px;
+  text-align: center;
 }
+.phase-name-wrapper h3 {
+  display: inline;
+  padding: 0;
+  font-size: 20px;
+  margin: 0;
+  line-height: 60px;
+  color: hsl(var(--theme-color) 60% 30%);
+  border-bottom: 2px solid;
+  border-image: linear-gradient(to right, #00dbde 0%, #fc00ff 100%);
+  border-image-slice: 8;
+}
+
+/*
 .phase-name-wrapper > h3 > span {
   margin: auto 8px;
   vertical-align: middle;
@@ -89,6 +123,7 @@ html {
   padding: 0;
   color: white;
 }
+*/
 
 /* content-container */
 
@@ -96,12 +131,71 @@ html {
   display: flex;
   margin: 10px 8px 10px 15px;
   line-height: 40px;
+  position: relative;
+  width: 100%;
 }
 .content-container > .content {
+  display: flex;
+  align-items: center;
   width: 80%;
 }
 .content-container > .content-delete {
-  width: 20%;
+  position: absolute;
+  right: -40px;
+  top: 50%;
+}
+.procedure-in-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+}
+.skip-button {
+  color: #b3b3b3;
+  font-family: Arial Black;
+  margin-left: 10px;
+  height: 42px;
+  width: 42px;
+  outline: 4px solid #b3b3b3;
+  line-height: 42px;
   text-align: center;
-  margin: auto 0;
+  border-radius: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+.skip-button.active {
+  color: red;
+  font-family: Arial Black;
+  margin-left: 10px;
+  height: 42px;
+  width: 42px;
+  outline: 4px solid red;
+  line-height: 42px;
+  text-align: center;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* ProcedureDetail */
+.procedure-detail-wrapper {
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  outline: 4px double green;
+  border-radius: 2px;
+}
+
+.procedure-flame {
+  background: hsl(var(--theme-color) 80% 50%);
+  margin: 30px 0 0 32px;
+  width: 350px;
+  border-radius: 8px;
+}
+
+.procedure-icon {
+  cursor: pointer;
+}
+
+.procedure-icon:hover {
+  color: rgba(155, 155, 155, 0.6);
 }

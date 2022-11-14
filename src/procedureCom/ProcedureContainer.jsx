@@ -6,6 +6,7 @@ import "../assets/procedure.css";
 
 const ProcedureContainer = () => {
   const [title, setTitle] = useState(""),
+    [titleId, setTitleId] = useState(""),
     [clumps, setClump] = useState(""),
     [phase, setPhase] = useState(""),
     [content, setContent] = useState("");
@@ -41,10 +42,12 @@ const ProcedureContainer = () => {
           inputTitle={inputTitle}
           inputPhase={inputPhase}
           inputContent={inputContent}
+          setTitleId={setTitleId}
           setPhase={setPhase}
           setContent={setContent}
           setClump={setClump}
           title={title}
+          titleId={titleId}
           clumps={clumps}
           phase={phase}
           content={content}
@@ -53,6 +56,7 @@ const ProcedureContainer = () => {
           setTitle={setTitle}
           setClump={setClump}
           title={title}
+          titleId={titleId}
           clumps={clumps}
         />
       </div>

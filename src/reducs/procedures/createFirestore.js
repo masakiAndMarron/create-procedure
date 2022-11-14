@@ -12,7 +12,11 @@ import {
 } from "firebase/firestore";
 import { timestamp } from "../../firebase/Config";
 
+//手順書作成画面で使用
 export const procedureRef = collection(db, "temp_procedure");
+
+//手順書一覧画面で使用
+export const procedureListRef = collection(db, "procedure_list");
 
 export async function createTempProcedure(
   text,
@@ -78,7 +82,7 @@ export async function getTempProcedureId(setTitleId) {
 
 export async function getClumpId(titleId, setClumpId) {
   const clumpRef = collection(doc(procedureRef, titleId), "clump");
-  const q = query(clumpRef, orderBy("updated_at", "desc"), limit(1));
+  const q = query(clumpRef, orderBy("created_at", "desc"), limit(1));
   const querySnapShot = await getDocs(q);
   let id = "";
   querySnapShot.forEach((snapshot) => {
@@ -102,34 +106,100 @@ export async function addContent(
     const docSnap = await getDoc(clumpRef);
     let data = {};
     let tempObj = { ...clumps };
+    //コンテンツの識別子としてランダムな文字列を生成
+    const S = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const N = 16;
+    const uniqueKey = Array.from(crypto.getRandomValues(new Uint8Array(N)))
+      .map((n) => S[n % S.length])
+      .join("");
+
     if (!docSnap.data().content) {
-      data.content = [content];
-      tempObj["temp_procedure"][docSnap.data().phase].content = [content];
-    } else {
-      data.content = [...docSnap.data().content, content];
-      tempObj["temp_procedure"][docSnap.data().phase].content = [
-        ...docSnap.data().content,
-        content,
+      data.content = [{ content: content, id: uniqueKey }];
+      tempObj["temp_procedure"][docSnap.data().phase].contents = [
+        { content: content, id: uniqueKey },
       ];
-      // let phaseCounter = 1;
-      // Object.keys(tempObj["temp_procedure"]).map((phase) => {
-      //   tempObj["temp_procedure"][phase].content = [
-      //     ...tempObj["temp_procedure"][phase].content,
-      //     phaseCounter +
-      //       "-" +
-      //       (tempObj["temp_procedure"][phase].content.length + 1) +
-      //       ". " +
-      //       content,
-      //   ];
-      //   phaseCounter += 1;
-      // });
+    } else {
+      data.content = [
+        ...docSnap.data().content,
+        { content: content, id: uniqueKey },
+      ];
+      tempObj["temp_procedure"][docSnap.data().phase].contents = [
+        ...docSnap.data().content,
+        { content: content, id: uniqueKey },
+      ];
     }
     data.updated_at = timestamp;
     updateDoc(clumpRef, data);
     setClump(tempObj);
     clearTextarea("");
   } else {
-    console.log("phaseを入力してください");
     switchContentErrorFlag(true);
   }
+}
+
+function generateRandomString() {
+  const S = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const N = 16;
+  const uniqueKey = Array.from(crypto.getRandomValues(new Uint8Array(N)))
+    .map((n) => S[n % S.length])
+    .join("");
+  return uniqueKey;
+}
+
+export async function createProcedure() {
+  //procedure_listのコレクション用変数の宣言
+  let newProcedureListRef;
+
+  return new Promise((resolve) => {
+    //temp_procedureデータを取得
+    const tempProcedureRef = getDocs(procedureRef);
+    resolve(tempProcedureRef);
+  }).then(function (results) {
+    return new Promise(function (resolve, reject) {
+      results.forEach((result) => {
+        //titleを格納
+        const title = result.data().title.title;
+        //procedure_listのドキュメント用Idを生成
+        let procedureId = generateRandomString();
+        //procedure_listドキュメントを新規作成
+        newProcedureListRef = doc(procedureListRef, procedureId);
+
+        //procedure_listのフィールドに追加するデータを作成
+        const data = {
+          title: {
+            title: title,
+            created_at: timestamp,
+            id: procedureId,
+          },
+        };
+
+        setDoc(newProcedureListRef, data);
+
+        //temp_procedureからデータを取得
+        const tempClumpRef = collection(doc(procedureRef, result.id), "clump");
+        const q = query(tempClumpRef, orderBy("created_at", "asc"));
+        const clumpRefs = getDocs(q);
+
+        resolve(clumpRefs);
+      });
+    }).then(function (results) {
+      results.forEach(async (result) => {
+        //clumpコレクション用idを生成
+        let clumpId = generateRandomString();
+        const clumpListRef = doc(
+          collection(newProcedureListRef, "clump"),
+          clumpId
+        );
+
+        const data = {
+          phase: result.data().phase,
+          contents: result.data().content,
+          created_at: timestamp,
+          updated_at: timestamp,
+          clump_id: clumpListRef.id,
+        };
+        await setDoc(clumpListRef, data);
+      });
+    });
+  });
 }

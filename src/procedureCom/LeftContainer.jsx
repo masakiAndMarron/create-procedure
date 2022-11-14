@@ -12,19 +12,20 @@ const CustomContentField = styled(TextField)({
   width: "310px",
 });
 
-const CustomButton = styled(Button)({
+export const CustomButton = styled(Button)({
   marginLeft: "24px",
 });
 
 const LeftContainer = (props) => {
-  const [titleId, setTitleId] = useState(""),
-    [clumpId, setClumpId] = useState(""),
+  const [clumpId, setClumpId] = useState(""),
     [contentErrorFlag, switchContentErrorFlag] = useState(false);
 
+  const setTitleId = props.setTitleId;
   const setClump = props.setClump;
   const setPhase = props.setPhase;
   const setContent = props.setContent;
   const title = props.title;
+  const titleId = props.titleId;
   const clumps = props.clumps;
   const phase = props.phase;
   const content = props.content;
