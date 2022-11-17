@@ -95,7 +95,16 @@ html {
 }
 .phase-name-wrapper {
   height: 60px;
-  text-align: center;
+}
+.phase-name {
+  width: 40%;
+  margin: 0 auto;
+}
+.open-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 20px;
+  cursor: pointer;
 }
 .phase-name-wrapper h3 {
   display: inline;
@@ -126,6 +135,21 @@ html {
 */
 
 /* content-container */
+
+.content-list-wrapper {
+  animation: fadeIn 0.8s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .content-container {
   display: flex;
