@@ -1,7 +1,41 @@
 import { timestamp } from "../../firebase/Config";
-import { doc, updateDoc, collection } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  collection,
+  deleteDoc,
+  deleteField,
+  getDocs,
+  getDoc,
+} from "firebase/firestore";
 import { procedureRef } from "./createFirestore";
 import { readTempProcedure } from "./readFirestore";
+import { procedureListRef } from "./createFirestore";
+import { readProcedureList } from "./readFirestore";
+
+async function deleteIndividualDoc(id, procedureRefType) {
+  let pRef = procedureRefType;
+  const clumpRefs = await getDocs(collection(doc(pRef, id), "clump"));
+
+  clumpRefs.forEach(async function (clump) {
+    const clumpRef = doc(
+      collection(doc(pRef, id), "clump"),
+      clump.data().clump_id
+    );
+    await deleteDoc(clumpRef);
+  });
+}
+
+export async function deleteTempProcedure(id) {
+  deleteIndividualDoc(id, procedureRef);
+  await deleteDoc(doc(procedureRef, id));
+}
+
+export async function deleteProcedure(id, setTitles) {
+  deleteIndividualDoc(id, procedureListRef);
+  await deleteDoc(doc(procedureListRef, id));
+  readProcedureList(setTitles);
+}
 
 export async function deleteContent(
   titleId,

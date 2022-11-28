@@ -1,22 +1,28 @@
-import React, { useEffect } from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Grid from "@mui/material/Grid";
-import FolderIcon from "@mui/icons-material/Folder";
-import { readProcedure } from "../reducs/procedures/readFirestore";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { readProcedure } from "../reducs/procedures/readFirestore";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import IconButton from "@mui/material/IconButton";
 import { push } from "connected-react-router";
-
-const Procedure = styled("div")(({ theme }) => ({}));
+import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import Avatar from "@mui/material/Avatar";
+import { deleteProcedure } from "../reducs/procedures/deleteFirestore";
 
 const IndividualProcedure = (props) => {
   const id = props.id;
   const title = props.title;
+  const setTitles = props.setTitles;
+  const createdAt = props.createdAt;
   const dispatch = useDispatch();
+
+  const buttons = [
+    <DeleteOutlinedIcon onClick={() => deleteProcedure(id, setTitles)} />,
+    <BorderColorOutlinedIcon />,
+  ];
 
   const fetchProcedureDetail = () => {
     readProcedure(id);
@@ -24,23 +30,29 @@ const IndividualProcedure = (props) => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-      <Grid container spacing={2}>
-        <Procedure className="procedure-flame">
-          <List>
-            <ListItem>
-              <ListItemIcon>
-                <FolderIcon
-                  className="procedure-icon"
-                  onClick={() => fetchProcedureDetail()}
-                />
-              </ListItemIcon>
-              <ListItemText>{title}</ListItemText>
-            </ListItem>
-          </List>
-        </Procedure>
-      </Grid>
-    </Box>
+    <>
+      <ListItem>
+        <ListItemIcon onClick={() => fetchProcedureDetail()}>
+          <IconButton>
+            <Avatar>
+              <OpenInFullIcon />
+            </Avatar>
+          </IconButton>
+        </ListItemIcon>
+        <ListItemText
+          sx={{ marginLeft: "20px;" }}
+          primary={title}
+          secondary={"作成日時：" + createdAt}
+        ></ListItemText>
+        {buttons.map((button) => (
+          <>
+            <ListItemIcon>
+              <IconButton>{button}</IconButton>
+            </ListItemIcon>
+          </>
+        ))}
+      </ListItem>
+    </>
   );
 };
 

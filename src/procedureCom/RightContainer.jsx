@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { readTempProcedure } from "../reducs/procedures/readFirestore";
 import PhaseListItem from "./PhaseListItem";
 import { CustomButton } from "./LeftContainer";
@@ -7,32 +7,34 @@ import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 const RightContainer = (props) => {
+  let dispatch = useDispatch();
   const title = props.title;
   const titleId = props.titleId;
   const clumps = props.clumps;
   const setClump = props.setClump;
   const setTitle = props.setTitle;
-  const dispatch = useDispatch();
-
-  const fetchProcedureList = () => {
-    createProcedure();
-    dispatch(push("/procedureList"));
-  };
 
   useEffect(() => {
     readTempProcedure(setTitle, setClump);
   }, []);
 
+  const createFetchProcedure = (titleId) => {
+    createProcedure(titleId);
+    dispatch(push("/procedureList"));
+  };
+
   return (
     <main className="right-container-wrapper">
       <article>
-        <div className="title-wrapper">
-          <h2>{title && <div>{title}</div>}</h2>
-          <span>を作成中・・・</span>
-        </div>
-        <div className="procedure-wrapper">
-          {clumps !== "" &&
-            Object.keys(clumps["temp_procedure"]).map((phases) => (
+        {title !== "" && (
+          <div className="title-wrapper">
+            <h2>{title && <div>{title}</div>}</h2>
+            <span>を作成中・・・</span>
+          </div>
+        )}
+        {clumps !== "" && Object.keys(clumps["temp_procedure"]).length > 0 && (
+          <div className="procedure-wrapper">
+            {Object.keys(clumps["temp_procedure"]).map((phases) => (
               <PhaseListItem
                 procedureType={"temp_procedure"}
                 setTitle={setTitle}
@@ -43,10 +45,14 @@ const RightContainer = (props) => {
                 key={clumps["temp_procedure"][phases].id}
               />
             ))}
-        </div>
+          </div>
+        )}
       </article>
       <div className="decide-button-area">
-        <CustomButton variant="contained" onClick={() => fetchProcedureList()}>
+        <CustomButton
+          variant="contained"
+          onClick={() => createFetchProcedure(titleId)}
+        >
           作成
         </CustomButton>
       </div>

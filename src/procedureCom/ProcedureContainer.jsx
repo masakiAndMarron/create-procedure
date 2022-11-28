@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, createContext } from "react";
+import { ResultClump } from "../procedureListCom/ProcedureDetail";
 import LeftContainer from "./LeftContainer";
 import RightContainer from "./RightContainer";
-import { AppBar, Toolbar } from "@mui/material";
 import "../assets/procedure.css";
 
 const ProcedureContainer = () => {
@@ -34,9 +34,6 @@ const ProcedureContainer = () => {
 
   return (
     <div className="container-frame">
-      {/* <AppBar>
-        <Toolbar></Toolbar>
-      </AppBar> */}
       <div className="container-wrapper">
         <LeftContainer
           inputTitle={inputTitle}
@@ -52,13 +49,15 @@ const ProcedureContainer = () => {
           phase={phase}
           content={content}
         />
-        <RightContainer
-          setTitle={setTitle}
-          setClump={setClump}
-          title={title}
-          titleId={titleId}
-          clumps={clumps}
-        />
+        <ResultClump.Provider value={""}>
+          <RightContainer
+            setTitle={setTitle}
+            setClump={setClump}
+            title={title}
+            titleId={titleId}
+            clumps={clumps}
+          />
+        </ResultClump.Provider>
       </div>
     </div>
   );

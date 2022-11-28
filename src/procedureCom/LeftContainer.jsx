@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
-  createTempProcedure,
   getTempProcedureId,
   addContent,
   getClumpId,
+  createTempTitle,
+  createTempPhase,
 } from "../reducs/procedures/createFirestore";
 import { TextField, Button, styled } from "@mui/material";
 
@@ -18,7 +19,8 @@ export const CustomButton = styled(Button)({
 
 const LeftContainer = (props) => {
   const [clumpId, setClumpId] = useState(""),
-    [contentErrorFlag, switchContentErrorFlag] = useState(false);
+    [contentErrorFlag, switchContentErrorFlag] = useState(false),
+    [phaseErrorFlag, switchPhaseErrorFlag] = useState(false);
 
   const setTitleId = props.setTitleId;
   const setClump = props.setClump;
@@ -58,16 +60,7 @@ const LeftContainer = (props) => {
                 />
                 <CustomButton
                   variant="contained"
-                  onClick={() =>
-                    createTempProcedure(
-                      title,
-                      "Title",
-                      titleId,
-                      setTitleId,
-                      clumps,
-                      setClump
-                    )
-                  }
+                  onClick={() => createTempTitle(title, setTitleId, setClump)}
                 >
                   作成
                 </CustomButton>
@@ -87,24 +80,42 @@ const LeftContainer = (props) => {
             )}
           </div>
           <div className="phase-field">
-            <TextField
-              label="Phase"
-              id="outlined-size-small"
-              size="small"
-              value={phase}
-              onChange={(e) => props.inputPhase(e)}
-            />
+            {phaseErrorFlag ? (
+              <TextField
+                multiline
+                rows={2}
+                error
+                id="outlined-error-helper-text"
+                size="small"
+                value={phase}
+                label="Error"
+                disabled
+                defaultValue="No Title"
+                helperText="タイトルを先に入力してください"
+              />
+            ) : (
+              <TextField
+                multiline
+                rows={2}
+                label="Phase"
+                id="outlined-size-small"
+                size="small"
+                value={phase}
+                onChange={(e) => props.inputPhase(e)}
+              />
+            )}
             <CustomButton
               variant="contained"
               onClick={() =>
-                createTempProcedure(
-                  phase,
-                  "Phase",
+                createTempPhase(
                   titleId,
+                  phase,
                   setClumpId,
+                  setClump,
                   setPhase,
                   clumps,
-                  setClump
+                  switchPhaseErrorFlag,
+                  switchContentErrorFlag
                 )
               }
             >
@@ -114,15 +125,29 @@ const LeftContainer = (props) => {
         </div>
         <div className="second-wrapper">
           <div className="content-field">
-            <CustomContentField
-              id="standard-multiline-static"
-              label="Content"
-              multiline
-              rows={7}
-              variant="standard"
-              value={content}
-              onChange={(e) => props.inputContent(e)}
-            />
+            {contentErrorFlag ? (
+              <CustomContentField
+                id="standard-multiline-static"
+                label="Content"
+                error
+                disabled
+                multiline
+                rows={7}
+                variant="standard"
+                value={content}
+                helperText="フェーズを入力してください"
+              />
+            ) : (
+              <CustomContentField
+                id="standard-multiline-static"
+                label="Content"
+                multiline
+                rows={7}
+                variant="standard"
+                value={content}
+                onChange={(e) => props.inputContent(e)}
+              />
+            )}
             <CustomButton
               variant="contained"
               onClick={() =>
@@ -140,9 +165,6 @@ const LeftContainer = (props) => {
               追加
             </CustomButton>
           </div>
-          {contentErrorFlag && (
-            <div className="error-message">※フェーズを入力してください</div>
-          )}
         </div>
       </div>
     </div>

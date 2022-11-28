@@ -11,6 +11,7 @@ import {
   limit,
 } from "firebase/firestore";
 import { timestamp } from "../../firebase/Config";
+import { deleteTempProcedure } from "./deleteFirestore";
 
 //手順書作成画面で使用
 export const procedureRef = collection(db, "temp_procedure");
@@ -18,55 +19,60 @@ export const procedureRef = collection(db, "temp_procedure");
 //手順書一覧画面で使用
 export const procedureListRef = collection(db, "procedure_list");
 
-export async function createTempProcedure(
-  text,
-  type,
+// ログ画面で使用
+export const procedureLogRef = collection(db, "procedure_log");
+
+export async function createTempTitle(text, setTitleId, setClump) {
+  const newProcedureRef = doc(procedureRef);
+  const obj = {};
+  //stateの初期値
+  obj["temp_procedure"] = {};
+  //firestoreのデータ構成
+  const data = {
+    title: {
+      title: text,
+      created_at: timestamp,
+    },
+  };
+  //firestore新規作成
+  await setDoc(newProcedureRef, data);
+  //state新規作成
+  setClump(obj);
+  //stateで作成したtitleのidを管理。
+  setTitleId(newProcedureRef.id);
+}
+
+export async function createTempPhase(
   id,
-  setId,
+  text,
+  setClumpId,
+  setClump,
   clearTextarea,
   clumps,
-  setClump
+  switchPhaseErrorFlag,
+  switchContentErrorFlag
 ) {
-  switch (true) {
-    case type === "Title":
-      if (id === "") {
-        const newProcedureRef = doc(procedureRef);
-        const obj = {};
-        //stateの初期値
-        obj["temp_procedure"] = {};
-        //firestoreのデータ構成
-        const data = {
-          title: {
-            title: text,
-            created_at: timestamp,
-          },
-        };
-        //firestore新規作成
-        await setDoc(newProcedureRef, data);
-        //state新規作成
-        setClump(obj);
-        //stateで作成したtitleのidを管理。
-        setId(newProcedureRef.id);
-      }
-    case type === "Phase":
-      const tempProcedureRef = doc(procedureRef, id);
-      const newClumpRef = doc(collection(tempProcedureRef, "clump"));
-      clumps["temp_procedure"][text] = [];
-      //firestoreに追加する用のデータ
-      const data = {
-        phase: text,
-        created_at: timestamp,
-        updated_at: timestamp,
-        clump_id: newClumpRef.id,
-      };
-      await setDoc(newClumpRef, data);
-      setId(newClumpRef.id);
-      setClump(clumps);
-      clearTextarea("");
-      break;
-    default:
-      break;
+  // Titleが作成されていなかったら
+  if (id === "") {
+    switchPhaseErrorFlag(true);
+    clearTextarea("");
+    return;
   }
+  const tempProcedureRef = doc(procedureRef, id);
+  const newClumpRef = doc(collection(tempProcedureRef, "clump"));
+  clumps["temp_procedure"][text] = [];
+  //firestoreに追加する用のデータ
+  const data = {
+    phase: text,
+    created_at: timestamp,
+    updated_at: timestamp,
+    clump_id: newClumpRef.id,
+  };
+  await setDoc(newClumpRef, data);
+  setClumpId(newClumpRef.id);
+  setClump(clumps);
+  clearTextarea("");
+  switchContentErrorFlag(false);
 }
 
 export async function getTempProcedureId(setTitleId) {
@@ -100,41 +106,42 @@ export async function addContent(
   clumps,
   setClump
 ) {
-  if (phaseId !== "") {
-    const tempProcedureRef = doc(db, "temp_procedure", titleId);
-    const clumpRef = doc(collection(tempProcedureRef, "clump"), phaseId);
-    const docSnap = await getDoc(clumpRef);
-    let data = {};
-    let tempObj = { ...clumps };
-    //コンテンツの識別子としてランダムな文字列を生成
-    const S = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const N = 16;
-    const uniqueKey = Array.from(crypto.getRandomValues(new Uint8Array(N)))
-      .map((n) => S[n % S.length])
-      .join("");
-
-    if (!docSnap.data().content) {
-      data.content = [{ content: content, id: uniqueKey }];
-      tempObj["temp_procedure"][docSnap.data().phase].contents = [
-        { content: content, id: uniqueKey },
-      ];
-    } else {
-      data.content = [
-        ...docSnap.data().content,
-        { content: content, id: uniqueKey },
-      ];
-      tempObj["temp_procedure"][docSnap.data().phase].contents = [
-        ...docSnap.data().content,
-        { content: content, id: uniqueKey },
-      ];
-    }
-    data.updated_at = timestamp;
-    updateDoc(clumpRef, data);
-    setClump(tempObj);
-    clearTextarea("");
-  } else {
+  if (phaseId === "") {
     switchContentErrorFlag(true);
+    clearTextarea("");
+    return;
   }
+  const tempProcedureRef = doc(db, "temp_procedure", titleId);
+  const clumpRef = doc(collection(tempProcedureRef, "clump"), phaseId);
+  const docSnap = await getDoc(clumpRef);
+  let data = {};
+  let tempObj = { ...clumps };
+  //コンテンツの識別子としてランダムな文字列を生成
+  const S = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const N = 16;
+  const uniqueKey = Array.from(crypto.getRandomValues(new Uint8Array(N)))
+    .map((n) => S[n % S.length])
+    .join("");
+
+  if (!docSnap.data().content) {
+    data.content = [{ content: content, id: uniqueKey }];
+    tempObj["temp_procedure"][docSnap.data().phase].contents = [
+      { content: content, id: uniqueKey },
+    ];
+  } else {
+    data.content = [
+      ...docSnap.data().content,
+      { content: content, id: uniqueKey },
+    ];
+    tempObj["temp_procedure"][docSnap.data().phase].contents = [
+      ...docSnap.data().content,
+      { content: content, id: uniqueKey },
+    ];
+  }
+  data.updated_at = timestamp;
+  updateDoc(clumpRef, data);
+  setClump(tempObj);
+  clearTextarea("");
 }
 
 function generateRandomString() {
@@ -146,7 +153,7 @@ function generateRandomString() {
   return uniqueKey;
 }
 
-export async function createProcedure() {
+export async function createProcedure(tempProcedureId) {
   //procedure_listのコレクション用変数の宣言
   let newProcedureListRef;
 
@@ -179,10 +186,9 @@ export async function createProcedure() {
         const tempClumpRef = collection(doc(procedureRef, result.id), "clump");
         const q = query(tempClumpRef, orderBy("created_at", "asc"));
         const clumpRefs = getDocs(q);
-
         resolve(clumpRefs);
       });
-    }).then(function (results) {
+    }).then(async function (results) {
       results.forEach(async (result) => {
         //clumpコレクション用idを生成
         let clumpId = generateRandomString();
@@ -190,7 +196,6 @@ export async function createProcedure() {
           collection(newProcedureListRef, "clump"),
           clumpId
         );
-
         const data = {
           phase: result.data().phase,
           contents: result.data().content,
@@ -198,8 +203,53 @@ export async function createProcedure() {
           updated_at: timestamp,
           clump_id: clumpListRef.id,
         };
+        console.log(data);
         await setDoc(clumpListRef, data);
       });
+      await deleteTempProcedure(tempProcedureId);
     });
+  });
+}
+
+export async function createLog(title, procedureResult) {
+  let newProcedureLogRef;
+  let procedureLogId = generateRandomString();
+  //procedure_logドキュメントを新規作成
+  newProcedureLogRef = doc(procedureLogRef, procedureLogId);
+  //procedure_logのフィールドに追加するデータを作成
+  const titleData = {
+    title: {
+      title: title,
+      created_at: timestamp,
+      id: procedureLogId,
+    },
+  };
+
+  setDoc(newProcedureLogRef, titleData);
+
+  Object.keys(procedureResult["procedure"]).map(async function (phaseName) {
+    let clumpId = generateRandomString();
+    let clumpListRef = await doc(
+      collection(newProcedureLogRef, "clump"),
+      clumpId
+    );
+    let clumpData = {
+      phase: phaseName,
+      create_at: timestamp,
+      clump_id: clumpId,
+      contents: {},
+    };
+    let contents = [];
+    procedureResult["procedure"][phaseName].contents.map((content) => {
+      let contentsValue = {
+        content: content.content,
+        id: content.id,
+        memo: content.memo,
+        result: content.result,
+      };
+      contents.push(contentsValue);
+    });
+    clumpData.contents = contents;
+    await setDoc(clumpListRef, clumpData);
   });
 }

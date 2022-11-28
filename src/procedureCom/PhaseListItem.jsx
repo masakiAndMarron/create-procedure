@@ -57,7 +57,7 @@ const PhaseListItem = (props) => {
                   setClump={setClump}
                   clumpId={clumpId}
                   content={value.content}
-                  id={value.id}
+                  contentId={value.id}
                   contentList={contentList}
                   key={value.id}
                 />
